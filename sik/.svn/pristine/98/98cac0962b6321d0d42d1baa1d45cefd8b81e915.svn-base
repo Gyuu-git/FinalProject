@@ -1,0 +1,48 @@
+<%@ page language="java" contentType="text/html;charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script src="/resources/js/peerjs.min.js"></script>
+
+
+<video id="mine" playsinline autoplay muted></video>
+<video id="your" playsinline autoplay muted></video>
+
+<button id="conn" >연결</button>
+
+
+<script type="text/javascript">
+var peer;
+
+// $("#conn").on("click", function() {
+	peer = new Peer("test_tea");
+	
+	peer.on('open', function(id) {
+		console.log("my peer id : " + id);
+	});
+	
+// 	var call = peer.call('test_stu', mediaStream);
+	
+// 	call.on('stream', function(stream) {
+// 		$("#your").src(stream);
+// 	});
+	
+// 	var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+	var getUserMedia = navigator.mediaDevices.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mzGetUserMedia
+// 	getUserMedia({video: true, audio: true}, function(stream) {
+// 	  var call = peer.call('test_stu', stream);
+// 	  call.on('stream', function(remoteStream) {
+// 		  $("#your").append(remoteStream);
+// 	  });
+// 	});
+	
+	getUserMedia({video: true, audio: true}, function(stream) {
+	  var call = peer.call('another-peers-id', stream);
+	  call.on('stream', function(remoteStream) {
+	    // Show stream in some video/canvas element.
+	  });
+	}, function(err) {
+	  console.log('Failed to get local stream' ,err);
+	});
+	
+// });
+</script>
+

@@ -1,0 +1,52 @@
+<%@ page language="java" contentType="text/html;charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
+
+<video id="mine" playsinline autoplay muted></video>
+<video id="your" playsinline autoplay muted></video>
+
+<button id="conn" >연결</button>
+
+
+<script type="text/javascript">
+	
+var peer = new Peer("test_stu");
+	
+	peer.on('open', function(id) {
+		console.log("my peer id : " + id);
+	});
+	
+// 	peer.on('call', function(call) {
+// 		call.answer(mediaStream);
+		
+// 		call.on('stream', function(stream) {
+// 			$("#your").html(stream);
+// 		});
+// 	});
+
+// 	var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+	var getUserMedia = navigator.mediaDevices.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mzGetUserMedia
+	
+// 	peer.on('call', function(call) {
+// 	  getUserMedia({video: true, audio: true}, function(stream) {
+// 	    call.answer(stream);
+// 	    call.on('stream', function(remoteStream) {
+// 	      $("#your").src(remoteStream);
+// 	    });
+// 	  }, function(err) {
+// 	    console.log('Failed to get local stream' ,err);
+// 	  });
+// 	});
+
+	peer.on('call', function(call) {
+	  getUserMedia({video: true, audio: true}, function(stream) {
+	    call.answer(stream); // Answer the call with an A/V stream.
+	    call.on('stream', function(remoteStream) {
+	      // Show stream in some video/canvas element.
+	    });
+	  }, function(err) {
+	    console.log('Failed to get local stream' ,err);
+	  });
+	});
+
+</script>
